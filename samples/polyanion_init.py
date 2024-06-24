@@ -1,8 +1,8 @@
 #!/usr/bin/python
  
-# Script:  initialize.py
+# Script:  polyanion_init.py
 # Purpose: Make input file
-# Example: python initialize.py
+# Example: python polyanion_init.py
 # Author:  Pierre Walker
 
 # lammps types    
