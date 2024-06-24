@@ -7,24 +7,25 @@
 # System Parameters
 #======
 # Initialize the system set up
-units lj
-atom_style full
-boundary p p p 
+
+units lj                # use LJ units 
+atom_style full         # define atom style as full
+boundary p p p          #set periodic boundary counditions in all 3 dimensions
 
 #======
 # Forcefield
 #======
 
 bond_style 		fene
-special_bonds   fene
+special_bonds   fene    #set special bond parameters for FENE interactions
 
-pair_style      lj/cut/coul/long 2.5 5.5
-pair_modify     shift yes
+pair_style      lj/cut/coul/long 2.5 5.5   # use LJ with long-range Coulomb interactions, specifying cutoff distances
+pair_modify     shift yes   #shift pair potential to 0 at the cutoff distance
 
 dielectric      1.0
-kspace_style    pppm   5.0e-3
+kspace_style    pppm   5.0e-3  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
 
-read_data input.data
+read_data input.data  #read the initial configuration and simulation parameters from input_data file
 
 # Atom types will be:
 # 1: Cation bead on polymer
@@ -44,11 +45,11 @@ group          dump   type 1 2 3 4 5
 # Simulation Parameters
 #======
 neighbor        0.3 bin
-neigh_modify    every 1 delay 3 check yes
+neigh_modify    every 1 delay 3 check yes #modify neighbor list settings to update every 1 step, delay 3 steps, and check for updates
 
-thermo          1000
-thermo_style    custom step temp epair ecoul ebond cpuremain
-thermo_modify   flush yes norm no
+thermo          1000 #output thermodynamic information every 1000 steps
+thermo_style    custom step temp epair ecoul ebond cpuremain  #customize thermo output to include step, temperature, and energy components
+thermo_modify   flush yes norm no  #modify thermo settings to flush output and disable normalization
 
 #======
 # Run Simulation
