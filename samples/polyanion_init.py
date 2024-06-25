@@ -18,7 +18,7 @@ from random import *
 
 #-------------------------------------------------------------------------
 iseed = 9328                 # random number seed
-nmonomers = 10               # total number of monomers in polymer
+nmonomers = 40               # total number of monomers in polymer
 npoly = 1                   # number of polymers
 bond = 0.97                  # bond length. depends on bond potential, but close to 1 is good enough
 minsep = 1.0                 # allowed separation in overlap check
@@ -29,13 +29,19 @@ L   = 20.0                   # box size
 
 minsep2 = minsep*minsep
 
+sequence = append(ones(20)*-1,ones(20))
+print(sequence)
+net_charge = sum(sequence)
+
+ncounterions = int(net_charge*npoly*-1)
 # END INPUT Parameters ------------------------------------------------------
 
 INPUT_LAMMPS = open('input.data', 'w')
 
 ntypes = 5 # number of atom types
 
-ncounterions = npoly*nmonomers # number of counterions
+# Initialize ncounterions to 0 for now, will calculate later
+
 ntot = nmonomers*npoly + ncounterions # total number of particles
 vol  = L*L*L # volume of the box
 
@@ -52,7 +58,7 @@ hx2 = hx/2.
 hy2 = hy/2.
 hz2 = hz/2.
 
-nbonds = ncounterions-npoly # number of bonds
+nbonds = npoly*nmonomers-npoly # number of bonds
 
 print("\n")
 print("Total number of particles: "+str(ntot)+"\n")
@@ -81,8 +87,14 @@ k=0
 for ix in range(npoly):
     lengthcurrentpoly = 0
     for iy in range(nmonomers):
-        typeb[k] = 2 # Anion on polymer
-        q[k] = -1    # Assign charge
+        q[k] = sequence[iy]
+        if sequence[iy] == 1.:
+            typeb[k] = 1 # cation on polymer
+        elif sequence[iy] == -1.:
+            typeb[k] = 2 # anion on polymer
+        else:
+            typeb[k] = 3 # neutral on polymer
+
         molnum[k] = ix + 1 # Assign molecule number
         if iy == 0: # First monomer in polymer
             xc[k] = (random()-0.5)*hx # Random x position
@@ -105,7 +117,7 @@ for ix in range(npoly):
 print(typeb[199:201])
 
 # Adjust for periodic boundary conditions when bead is outside the box
-for k in range(ncounterions):
+for k in range(npoly*nmonomers):
     if (xc[k] > hx):
         cx[k] = int(xc[k]/hx)
         xc[k] = xc[k] - cx[k]*hx - hx2
@@ -138,13 +150,15 @@ for k in range(ncounterions):
 print("Polymers built."+"\n")
 
 # Add counterions to neutralise system
-for ii in range(1,ncounterions+1):
+for ii in range(1,abs(ncounterions)+1):
     k = ii + ntot - ncounterions - 1
     xc[k] = (random()-0.5)*hx 
     yc[k] = (random()-0.5)*hy
     zc[k] = (random()-0.5)*hz
     typeb[k] = 4
-    q[k] = z_c
+    q[k] = sign(ncounterions)*-1
+
+    
 
 print("Counterions complete."+"\n")
 
@@ -227,13 +241,13 @@ pbond2 = zeros(nbonds+1)
 ibond=0
 pbond=0
 i0 = 0
-for i in range(ntot-ncounterions+1):
+for i in range(ntot-abs(ncounterions)):
         #if not at the end of the polymer
         if molnum[i+1] == molnum[i]:
             ibond = ibond+1 #the bond number
             if typeb[i] == 1: #if you are on an alpha group, bond type is 2
                 j=i+1
-                INPUT_LAMMPS.write("%8i  2 %8i %8i\n" % (ibond,i+1,j+1))
+                INPUT_LAMMPS.write("%8i  1 %8i %8i\n" % (ibond,i+1,j+1))
             elif typeb[i] == 3: #if you are on a pendant group, go back to the alpha bead and make bond with beta
                 i=i-1
                 j=i+2
