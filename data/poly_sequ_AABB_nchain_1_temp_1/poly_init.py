@@ -18,8 +18,7 @@ from random import *
 
 #-------------------------------------------------------------------------
 iseed = 9328                 # random number seed
-nmonomers = 40               # total number of monomers in polymer
-npoly = NCHAIN                   # number of polymers
+npoly = 1                   # number of polymers
 bond = 0.97                  # bond length. depends on bond potential, but close to 1 is good enough
 minsep = 1.0                 # allowed separation in overlap check
 
@@ -29,8 +28,9 @@ L   = 20.0                   # box size
 
 minsep2 = minsep*minsep
 
-sequence = SEQUENCE
-print(sequence)
+sequence = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,]
+nmonomers = len(sequence)
+
 net_charge = sum(sequence)
 
 ncounterions = int(net_charge*npoly*-1)
