@@ -24,12 +24,13 @@ minsep = 1.0                 # allowed separation in overlap check
 
 cisize = 1.0                 # Ion size
 z_c =  1                     # counterion valence                 
-L   = 20.0                   # box size
+L   = LENGTH                   # box size
 
 minsep2 = minsep*minsep
 
 sequence = SEQUENCE
 nmonomers = len(sequence)
+print("N monomers: "+str(nmonomers))
 
 net_charge = sum(sequence)
 
@@ -244,16 +245,8 @@ for i in range(ntot-abs(ncounterions)):
         #if not at the end of the polymer
         if molnum[i+1] == molnum[i]:
             ibond = ibond+1 #the bond number
-            if typeb[i] == 1: #if you are on an alpha group, bond type is 2
-                j=i+1
-                INPUT_LAMMPS.write("%8i  1 %8i %8i\n" % (ibond,i+1,j+1))
-            elif typeb[i] == 3: #if you are on a pendant group, go back to the alpha bead and make bond with beta
-                i=i-1
-                j=i+2
-                INPUT_LAMMPS.write("%8i  1 %8i %8i\n" % (ibond,i+1,j+1))
-            elif typeb[i] == 2:
-                j=i+1
-                INPUT_LAMMPS.write("%8i  1 %8i %8i\n" % (ibond,i+1,j+1))
+            j=i+1
+            INPUT_LAMMPS.write("%8i  1 %8i %8i\n" % (ibond,i+1,j+1))
 
     
 # Masses

@@ -8,15 +8,16 @@ cp "$CWD_PATH/parameters/poly_init.py" "$CWD_PATH/data/$TAG/poly_init.py"
 cd "$CWD_PATH/data/$TAG"
 
 # Initialise box
-sed -i '' "s/SEQUENCE/$sequence/g" poly_init.py
-sed -i '' "s/NCHAIN/$NCHAIN/g" poly_init.py
+sed -i "s/SEQUENCE/$sequence/g" poly_init.py
+sed -i "s/NCHAIN/$NCHAIN/g" poly_init.py
+sed -i "s/LENGTH/$LENGTH/g" poly_init.py
 
 python3 poly_init.py
 
 # Modify the LAMMPS input file with the input parameters
-sed -i '' "s/TEMP/$TEMP/g" poly.in
+sed -i "s/TEMP/$TEMP/g" poly.in
 
 # Run the LAMMPS simulation
-$LAMMPS_PATH -in poly.in > poly.out
+mpirun -np $NCPU $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in poly.in > poly.out
 
 cd $CWD_PATH
