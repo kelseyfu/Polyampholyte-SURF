@@ -25,7 +25,7 @@ pair_modify     shift yes   #shift pair potential to 0 at the cutoff distance
 dielectric      1.0
 kspace_style    pppm   5.0e-4  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
 
-read_data input.data  #read the initial configuration and simulation parameters from input_data file
+read_restart restart1  #read the initial configuration and simulation parameters from input_data file
 
 # Atom types will be:
 # 1: Cation bead on polymer
@@ -54,34 +54,19 @@ thermo_modify   flush yes norm no  #modify thermo settings to flush output and d
 #======
 # Run Simulation
 #======
-
-#------
-# Step 1: Minimize the energy of the system
-#------
-minimize 1e-5 1e-5 1000 1000
-
-#------
-# Step 2: Equilibrate the system
-#------
-reset_timestep 0
-
-velocity	   all create TEMP 8577 dist gaussian mom yes
-
-dump           100 dump custom 1000 drop.lammpstrj id mol type q x y z
-dump_modify    100 flush yes sort 1
-
-fix            dynamics    all langevin TEMP TEMP 7.01 222333
-fix            2           all nve
-
-restart         100000 restart1 restart2
-
-timestep        0.005
-run             1000000
-
 #------
 # Step 3: Production run
 #------
-run           100000000
+fix            dynamics    all langevin TEMP TEMP 7.01 222333
+fix            2           all nve
+
+dump           100 dump custom 1000 drop.lammpstrj id mol type q x y z
+dump_modify    100 flush yes sort 1 append yes
+
+variable Step equal "step"
+variable retime equal 100000000-${Step}
+
+run           ${retime}
 
 
 
