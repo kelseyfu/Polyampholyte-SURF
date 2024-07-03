@@ -1,0 +1,48 @@
+#=======================================
+# Lennard-Jones Fluid
+#   Created by Kelsey Fu & Pierre Walker (2024/06/20)
+#==================================
+
+#======
+# System Parameters
+#======
+# Initialize the system set up
+
+units lj                # use LJ units 
+atom_style full         # define atom style as full
+boundary p p p          #set periodic boundary counditions in all 3 dimensions
+
+#======
+# Forcefield
+#======
+
+bond_style 		fene
+special_bonds   fene    #set special bond parameters for FENE interactions
+
+pair_style      lj/cut/coul/long 1.1225 25.0   # use LJ with long-range Coulomb interactions, specifying cutoff distances
+pair_modify     shift yes   #shift pair potential to 0 at the cutoff distance
+
+dielectric      1.0
+kspace_style    pppm   5.0e-4  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
+
+read_data input.data
+
+neigh_modify    every 1 delay 3 check yes one 4000 #modify neighbor list settings to update every 1 step, delay 3 steps, and check for updates
+
+#=====
+# Define Analysis
+#=====
+compute cluster all aggregate/atom 1.5
+compute cc1 all chunk/atom c_cluster compress yes
+compute myChunk all gyration/chunk cc1
+compute size all property/chunk cc1 count
+
+variable CMass  equal max(c_size)
+variable Rgmax  equal max(c_myChunk)
+
+#======
+# Run Analysis
+#======
+fix cluster_size all print 20 "step ${CMass} ${Rgmax}" file cluster_size.txt
+
+rerun drop.lammpstrj every 1 dump x y z box no

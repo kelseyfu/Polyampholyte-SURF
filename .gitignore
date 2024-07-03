@@ -1,1 +1,4 @@
 software/lammps/*
+data/*
+samples/*
+*.out

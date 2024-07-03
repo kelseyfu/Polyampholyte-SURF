@@ -10,7 +10,7 @@
 LAMMPS_VERSION="2Aug2023"
 
 # Specify CUDA architecture
-GPU="off"
+GPU="on"
 CUDA_ARCH="sm_86" # For CUDA 11.1 and higher, sm_80 for lower versions
 
 # Download LAMMPS
@@ -48,13 +48,15 @@ cmake ../cmake -D PKG_COLVARS=yes             \
                -D PKG_EXTRA-PAIR=yes          \
                -D PKG_EXTRA-MOLECULE=yes      \
                -D PKG_MISC=yes                \
+               -D PKG_GPU=yes                 \
+               -D GPU_API=cuda                \
+               -D GPU_ARCH=$CUDA_ARCH         \
+               -D BIN2C=/usr/local/cuda-12.2/bin/bin2c \
 
-# Add GPU support if requested
-if [ "$GPU" = "on" ]; then
-    cmake ../cmake -D PKG_GPU=yes              \
-                   -D GPU_API=cuda             \
-                   -D GPU_ARCH=$CUDA_ARCH      \         
-fi 
+# # Add GPU support if requested
+# if [ "$GPU" = "on" ]; then
+#     cmake ../cmake         
+# fi 
 
 # Compile LAMMPS
 echo "INFO: Building LAMMPS..."
