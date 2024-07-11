@@ -13,6 +13,7 @@ then
         cp "$CWD_PATH/parameters/poly_restart.in" "$CWD_PATH/data/$TAG/poly_restart.in"
 
         sed -i "s/TEMP/$TEMP/g" poly_restart.in
+        sed -i "s/STEPS/$STEPS/g" poly_restart.in
 
 
         if [ "${NGPU}" == "0" ]
@@ -36,6 +37,7 @@ else
 
     # Modify the LAMMPS input file with the input parameters
     sed -i "s/TEMP/$TEMP/g" poly.in
+    sed -i "s/STEPS/$STEPS/g" poly.in
 
     # Run the LAMMPS simulation
     if [ "${NGPU}" == "0" ]

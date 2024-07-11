@@ -64,7 +64,7 @@ dump           100 dump custom 1000 drop.lammpstrj id mol type q x y z
 dump_modify    100 flush yes sort 1 append yes
 
 variable Step equal "step"
-variable retime equal 100000000-${Step}
+variable retime equal STEPS-${Step}
 
 run           ${retime}
 

@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=NEW_GRAD_2
+#SBATCH --job-name=+12
 #SBATCH --time=2-00:00:00
 # Slurm: Node configuration
 #SBATCH --partition=subset
 #SBATCH --account=zgw
 #SBATCH --qos=zgw
+#SBATCH --exclude=node11
 
 #SBATCH --nodes=1 --ntasks-per-node=2 --mem=4G
 #SBATCH --gres=gpu:0 --gpu-bind=closest
+
+#SBATCH --output=/home/kfu/slurm-reports/slurm-%j.out --error=/home/kfu/slurm-reports/slurm_error-%j.out
 
 # -*- coding: utf-8 -*-
 #
@@ -19,100 +22,15 @@
 CWD_PATH=$(pwd)
 LAMMPS_PATH="lmp"
 
-# Define the input parameters (example values, you may replace them)
-export TEMP="1"
-export NCHAIN="2"
-export LENGTH="50"
+source "inputs/0.8chi_+12_1.sh"
 
-export NCPU="2"
-export NGPU="0"
+source "script/simulate.sh" # 1 & 100 chain
 
-# export sequence="[-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1, 1]"
-# export SEQUNAME="ABAB_N_2"
-
-# export sequence="[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
-# export SEQUNAME="AABB_N_2"
-
-#  export sequence="[1,1,-1,1,-1,1,1,-1,1,-1,-1,1,1,-1,1,-1,-1,1,-1,1,-1,1,-1,1,-1,-1,1,-1,1,-1,1,1,-1,-1,1,-1,1,-1,-1,1]"
-#  export SEQUNAME="RAND_N_2"
-
-export sequence="[-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,-1,1,1,1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,-1,1,-1,-1,-1,1,1,1,1,1,1,1,1]"
-export SEQUNAME="NEWGRAD_N_2"
-
-
-
-
-# # NET + 25% ------------------------------------------------
-#  export sequence="[-1,1,-1,1,1,1,-1,1,1,1,-1,1,-1,1,1,1,-1,1,-1,1,-1,1,1,1,-1,1,-1,1,-1,1,-1,1,1,1,-1,1,-1,1,-1,1]"
-#  export SEQUNAME="ABAB_+25"
-
-# export sequence="[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
-# export SEQUNAME="AABB_+25"
-
-#  export sequence="[1,-1,1,1,1,1,-1,1,-1,1,-1,1,-1,1,1,-1,1,-1,1,1,1,1,1,1,-1,-1,1,-1,1,1,1,-1,1,-1,1,-1,1,-1,1,1]"
-#  export SEQUNAME="RAND_+25"
-
-# export sequence="[-1,-1,-1,-1,1,-1,-1,1,-1,1,1,-1,1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,1,1,1,-1,1,-1,1,1,1,1,1,1,1,1]"
-# export SEQUNAME="NEWGRAD_+25"
-
-
-# # NET + 75% ------------------------------------------------
-#  export sequence="[-1,1,1,1,-1,1,1,1,-1,1,1,1,-1,1,1,1,-1,1,1,1,-1,1,1,1,-1,1,1,1,-1,1,1,1,-1,1,1,1,-1,1,1,1]"
-#  export SEQUNAME="ABAB_+75"
-
-# export sequence="[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
-# export SEQUNAME="AABB_+75"
-
-#  export sequence="[1,1,-1,1,1,1,1,1,-1,1,1,1,1,1,1,1,1,-1,1,-1,1,1,1,1,1,1,1,-1,-1,1,1,-1,-1,1,1,1,-1,1,1,1]"
-#  export SEQUNAME="RAND_+75"
-
-# export sequence="[-1,-1,1,1,-1,-1,1,-1,1,1,1,-1,1,1,1,1,-1,1,-1,1,-1,1,-1,1,-1,1,1,1,1,1,-1,1,1,1,1,1,1,1,1,1]"
-# export SEQUNAME="NEWGRAD_+75"
+# source "script/simulate_pmf Only 2 chain
+# source "script/analysis.sh" Only cluster analysis 4 100 chain
 
 
 
 
 
-# # NET - 25% ------------------------------------------------
-#  export sequence="[-1,1,-1,1,-1,-1,-1,1,-1,1,-1,1,-1,-1,-1,1,-1,1,-1,1,-1,1,-1,-1,-1,1,-1,1,-1,1,-1,-1,-1,1,-1,1,-1,1,1,-1]"
-#  export SEQUNAME="ABAB_-25"
-
-# export sequence="[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
-# export SEQUNAME="AABB_-25"
-
-#  export sequence="[-1,1,-1,-1,-1,1,-1,-1,-1,1,-1,-1,-1,-1,-1,1,-1,-1,1,1,-1,1,1,-1,-1,-1,-1,1,1,-1,-1,-1,1,-1,-1,1,-1,1,-1,1]"
-#  export SEQUNAME="RAND_-25"
-
-# export sequence="[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,-1,1,-1,-1,-1,1,-1,1,1,1,1,1]"
-# export SEQUNAME="NEWGRAD_-25"
-
-
-
-
-# # NET - 75% ------------------------------------------------
-#  export sequence="[-1,-1,-1,1,-1,1,-1,-1,-1,1,-1,-1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,-1,-1,1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,1,1,-1,-1]"
-#  export SEQUNAME="ABAB_-75"
-
-# export sequence="[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1,1,1]"
-# export SEQUNAME="AABB_-75"
-
-#  export sequence="[-1,1,-1,-1,-1,-1,-1,1,-1,1,1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,1,1,-1,-1,-1,-1,1,-1,-1,-1,1,-1]"
-#  export SEQUNAME="RAND_-75"
-
-# export sequence="[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,1,-1,-1,-1,-1,1,-1,1,-1,1,-1,1,-1,-1,-1,1,-1,-1,1,-1,-1,1,-1,-1,1,-1,1,1]"
-# export SEQUNAME="NEWGRAD_-75"
-
-#_________________________________________________________________
-
-#reference neutral
-# export sequence="[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]"
-# export SEQUNAME="NEUTRAL_REF"
-
-#Reference Charged
-# export sequence="[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
-# export SEQUNAME="CHARGED_REF"
-
-# source "script/simulate.sh"
-source "script/simulate_pmf.sh"
-# source "script/analysis.sh"
 
