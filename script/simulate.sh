@@ -32,6 +32,7 @@ else
     sed -i "s/SEQUENCE/$sequence/g" poly_init.py
     sed -i "s/NCHAIN/$NCHAIN/g" poly_init.py
     sed -i "s/LENGTH/$LENGTH/g" poly_init.py
+    sed -i "s/NSALT/$NSALT/g" poly_init.py
 
     python3 poly_init.py
 

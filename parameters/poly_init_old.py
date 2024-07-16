@@ -22,7 +22,6 @@ npoly = NCHAIN                   # number of polymers
 bond = 0.97                  # bond length. depends on bond potential, but close to 1 is good enough
 minsep = 1.0                 # allowed separation in overlap check
 
-nsalt = NSALT                # Add nsalts
 cisize = 1.0                 # Ion size
 z_c =  1                     # counterion valence                 
 L   = LENGTH                   # box size
@@ -43,8 +42,8 @@ INPUT_LAMMPS = open('input.data', 'w')
 ntypes = 5 # number of atom types
 
 # Initialize ncounterions to 0 for now, will calculate later
-nions = 2*nsalt
-ntot = nmonomers*npoly + ncounterions + 2*nsalt # total number of particles
+
+ntot = nmonomers*npoly + ncounterions # total number of particles
 vol  = L*L*L # volume of the box
 
 dens = ntot/vol # density
@@ -156,33 +155,12 @@ for ii in range(1,abs(ncounterions)+1):
     xc[k] = (random()-0.5)*hx 
     yc[k] = (random()-0.5)*hy
     zc[k] = (random()-0.5)*hz
+    typeb[k] = 4
     q[k] = sign(ncounterions)*-1
-    if q[k] < 0:
-        typeb[k] = 5
-    else:
-        typeb[k] = 4
 
-
+    
 
 print("Counterions complete."+"\n")
-
-# Add salt ions (Na+ and Cl-)
-for i in range(nsalt):
-    k = nmonomers*npoly + ncounterions + 2*i
-    xc[k] = (random()-0.5)*hx 
-    yc[k] = (random()-0.5)*hy
-    zc[k] = (random()-0.5)*hz
-    typeb[k] = 4 # Na+
-    q[k] = 1.0
-
-    k = nmonomers*npoly + ncounterions + 2*i + 1
-    xc[k] = (random()-0.5)*hx 
-    yc[k] = (random()-0.5)*hy
-    zc[k] = (random()-0.5)*hz
-    typeb[k] = 5 # Cl-
-    q[k] = -1.0
-
-print("Salt ions complete."+"\n")
 
 # OUTPUT headers ---------------------------------------------------------------
 
@@ -250,7 +228,7 @@ for i in range(dim-1):
         imol = molnum[i] #this implies the polymers must be placed in before the counterions
     else:
         #imol = npoly+1 #the molecule number for all counterions is the same; it's more like a group number
-        imol = i-ntot+ncounterions+nions+npoly+1 #LMH now each ion has its own molecule number
+        imol = i-ntot+ncounterions+npoly+1 #LMH now each ion has its own molecule number
     INPUT_LAMMPS.write("%6i %6i %2i %6.2f %9.4f %9.4f %9.4f %6i %6i %6i\n" % (i+1, imol, itype, q[i], xc[i], yc[i], zc[i], cx[i], cy[i], cz[i]))
 # Bonds
 INPUT_LAMMPS.write("\n")
@@ -263,7 +241,7 @@ pbond2 = zeros(nbonds+1)
 ibond=0
 pbond=0
 i0 = 0
-for i in range(ntot-abs(ncounterions+nions)):
+for i in range(ntot-abs(ncounterions)):
         #if not at the end of the polymer
         if molnum[i+1] == molnum[i]:
             ibond = ibond+1 #the bond number
