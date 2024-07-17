@@ -24,7 +24,9 @@ minsep = 1.0                 # allowed separation in overlap check
 
 cisize = 1.0                 # Ion size
 z_c =  1                     # counterion valence                 
-L   = LENGTH                   # box size
+Lx   = LENGTHX               # box size in x
+Ly   = LENGTHY               # box size in y
+Lz   = LENGTHZ               # box size in z
 
 minsep2 = minsep*minsep
 
@@ -44,16 +46,16 @@ ntypes = 5 # number of atom types
 # Initialize ncounterions to 0 for now, will calculate later
 
 ntot = nmonomers*npoly + ncounterions # total number of particles
-vol  = L*L*L # volume of the box
+vol  = Lx*Ly*Lz # volume of the box
 
 dens = ntot/vol # density
 
 dim = int(ntot+1)
 
 # simulation cell parameters
-hx = L
-hy = L
-hz = L
+hx = Lx
+hy = Ly
+hz = Lz
 
 hx2 = hx/2.
 hy2 = hy/2.
