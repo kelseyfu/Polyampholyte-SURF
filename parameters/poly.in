@@ -84,7 +84,7 @@ run             1000000
 #------
 # Step 3: Production run
 #------
-run           100000000
+run           STEPS
 
 
 
