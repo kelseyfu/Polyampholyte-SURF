@@ -152,7 +152,7 @@ print("Polymers built."+"\n")
 
 # Add counterions to neutralise system
 for ii in range(1,abs(ncounterions)+1):
-    k = ii + ntot - ncounterions - 1
+    k = nmonomers*npoly + ii - 1
     xc[k] = (random()-0.5)*hx 
     yc[k] = (random()-0.5)*hy
     zc[k] = (random()-0.5)*hz
