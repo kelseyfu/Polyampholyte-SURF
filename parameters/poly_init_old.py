@@ -18,22 +18,23 @@ from random import *
 
 #-------------------------------------------------------------------------
 iseed = 9328                 # random number seed
-nmonomers = 40               # total number of monomers in polymer
 npoly = NCHAIN                   # number of polymers
 bond = 0.97                  # bond length. depends on bond potential, but close to 1 is good enough
 minsep = 1.0                 # allowed separation in overlap check
 
 cisize = 1.0                 # Ion size
 z_c =  1                     # counterion valence                 
-L   = 20.0                   # box size
+L   = LENGTH                   # box size
 
 minsep2 = minsep*minsep
 
 sequence = SEQUENCE
-print(sequence)
+nmonomers = len(sequence)
+print("N monomers: "+str(nmonomers))
+
 net_charge = sum(sequence)
 
-ncounterions = int(net_charge*npoly*-1)
+ncounterions = int(abs(net_charge*npoly))
 # END INPUT Parameters ------------------------------------------------------
 
 INPUT_LAMMPS = open('input.data', 'w')
@@ -83,7 +84,6 @@ q=[0.0]*dim
 # Build polymers
 k=0
                             
-  
 for ix in range(npoly):
     lengthcurrentpoly = 0
     for iy in range(nmonomers):
@@ -245,16 +245,8 @@ for i in range(ntot-abs(ncounterions)):
         #if not at the end of the polymer
         if molnum[i+1] == molnum[i]:
             ibond = ibond+1 #the bond number
-            if typeb[i] == 1: #if you are on an alpha group, bond type is 2
-                j=i+1
-                INPUT_LAMMPS.write("%8i  1 %8i %8i\n" % (ibond,i+1,j+1))
-            elif typeb[i] == 3: #if you are on a pendant group, go back to the alpha bead and make bond with beta
-                i=i-1
-                j=i+2
-                INPUT_LAMMPS.write("%8i  1 %8i %8i\n" % (ibond,i+1,j+1))
-            elif typeb[i] == 2:
-                j=i+1
-                INPUT_LAMMPS.write("%8i  1 %8i %8i\n" % (ibond,i+1,j+1))
+            j=i+1
+            INPUT_LAMMPS.write("%8i  1 %8i %8i\n" % (ibond,i+1,j+1))
 
     
 # Masses

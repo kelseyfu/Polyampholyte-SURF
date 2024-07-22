@@ -67,7 +67,7 @@ reset_timestep 0
 
 velocity	   all create TEMP 8577 dist gaussian mom yes
 
-dump           100 dump custom 10000 drop.lammpstrj id mol type q x y z
+dump           100 dump custom 1000 drop.lammpstrj id mol type q x y z
 dump_modify    100 flush yes sort 1
 
 dump           10 dump custom 100000 short.lammpstrj id mol type q x y z

@@ -19,11 +19,11 @@ boundary p p p          #set periodic boundary counditions in all 3 dimensions
 bond_style 		fene
 special_bonds   fene    #set special bond parameters for FENE interactions
 
-pair_style      lj/cut/coul/long 2.5 5.5   # use LJ with long-range Coulomb interactions, specifying cutoff distances
+pair_style      lj/cut/coul/long 1.1225 25.0   # use LJ with long-range Coulomb interactions, specifying cutoff distances
 pair_modify     shift yes   #shift pair potential to 0 at the cutoff distance
 
 dielectric      1.0
-kspace_style    pppm   5.0e-3  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
+kspace_style    pppm   5.0e-4  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
 
 read_data input.data  #read the initial configuration and simulation parameters from input_data file
 
@@ -46,6 +46,7 @@ group          dump   type 1 2 3 4 5
 #======
 neighbor        0.3 bin
 neigh_modify    every 1 delay 3 check yes #modify neighbor list settings to update every 1 step, delay 3 steps, and check for updates
+neigh_modify    one 4000
 
 thermo          1000 #output thermodynamic information every 1000 steps
 thermo_style    custom step temp epair ecoul ebond cpuremain  #customize thermo output to include step, temperature, and energy components
@@ -65,26 +66,29 @@ minimize 1e-5 1e-5 1000 1000
 #------
 reset_timestep 0
 
-velocity	   all create 1.0 8577 dist gaussian mom yes
+velocity	   all create TEMP 8577 dist gaussian mom yes
 
 dump           100 dump custom 1000 drop.lammpstrj id mol type q x y z
 dump_modify    100 flush yes sort 1
 
-fix            pull    polymer smd cfor 200 tether 61.0745 61.0745 61.0745 0.0
-fix            dynamics    all langevin 1.0 1.0 7.01 222333
+dump           10 dump custom 100000 short.lammpstrj id mol type q x y z
+dump_modify    10 flush yes sort 1
+
+fix            dynamics    all langevin TEMP TEMP 7.01 222333
+fix            center      polymer drag 0.0 NULL NULL 0.2 30.0
+ 
 fix            2           all nve
 
-restart         100000 restart1 restart2
+restart         10000 restart1 restart2
 
 timestep        0.005
-run             1000000
+run             100000
 
-unfix           pull
-
+unfix center
 #------
 # Step 3: Production run
 #------
-run           2000000
+run           STEPS
 
 
 
