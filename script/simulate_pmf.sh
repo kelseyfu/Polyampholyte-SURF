@@ -44,6 +44,7 @@ else
 
     # Modify the LAMMPS input file with the input parameters
     sed -i "s/TEMP/$TEMP/g" 2chain_pmf.in
+    sed -i "s/STEPS/$STEPS/g" 2chain_pmf.in
 
     # Run the LAMMPS simulation
     if [ "${NGPU}" == "0" ]
