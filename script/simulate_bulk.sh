@@ -1,5 +1,5 @@
 # Make a new directory for the simulation
-export TAG="poly_sequ_${SEQUNAME}_nchain_${NCHAIN}_nsalt_${NSALT}_temp_${TEMP}_bulk"
+export TAG="poly_sequ_${SEQUNAME}_nchain_${NCHAIN}_znet_${ZNET}_nsalt_${NSALT}_temp_${TEMP}_bulk"
 mkdir -p "$CWD_PATH/data/$TAG"
 cd "$CWD_PATH/data/$TAG"
 
@@ -13,6 +13,7 @@ then
         cp "$CWD_PATH/parameters/poly_bulk_restart.in" "$CWD_PATH/data/$TAG/poly_bulk_restart.in"
 
         sed -i "s/TEMP/$TEMP/g" poly_bulk_restart.in
+        sed -i "s/STEPS/$STEPS/g" poly_bulk_restart.in
 
 
         if [ "${NGPU}" == "0" ]
@@ -39,6 +40,7 @@ else
 
     # Modify the LAMMPS input file with the input parameters
     sed -i "s/TEMP/$TEMP/g" poly_bulk.in
+    sed -i "s/STEPS/$STEPS/g" poly_bulk.in
 
     # Run the LAMMPS simulation
     if [ "${NGPU}" == "0" ]
