@@ -59,6 +59,7 @@ thermo_modify   flush yes norm no  #modify thermo settings to flush output and d
 #------
 fix            dynamics    all langevin TEMP TEMP 7.01 222333
 fix            2           all nve
+fix            ba          all balance 1000 1.05 shift x 10 1.05
 
 dump           100 dump custom 1000 drop.lammpstrj id mol type q x y z
 dump_modify    100 flush yes sort 1 append yes
