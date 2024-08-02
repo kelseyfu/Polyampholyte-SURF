@@ -13,13 +13,13 @@ then
         cp "$CWD_PATH/parameters/poly_bulk_restart.in" "$CWD_PATH/data/$TAG/poly_bulk_restart.in"
 
         sed -i "s/TEMP/$TEMP/g" poly_bulk_restart.in
-
+        sed -i "s/STEPS/$STEPS/g" poly_bulk_restart.in
 
         if [ "${NGPU}" == "0" ]
         then
-            mpirun -np $NCPU $LAMMPS_PATH -in poly_restart.in >> poly.out
+            mpirun -np $NCPU $LAMMPS_PATH -in poly_bulk_restart.in >> poly.out
         else
-            mpirun -np $NCPU $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in poly_restart.in >> poly.out
+            mpirun -np $NCPU $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in poly_bulk_restart.in >> poly.out
         fi
 
     fi
@@ -39,6 +39,7 @@ else
 
     # Modify the LAMMPS input file with the input parameters
     sed -i "s/TEMP/$TEMP/g" poly_bulk.in
+    sed -i "s/STEPS/$STEPS/g" poly_bulk.in
 
     # Run the LAMMPS simulation
     if [ "${NGPU}" == "0" ]
