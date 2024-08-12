@@ -19,11 +19,11 @@ boundary p p p          #set periodic boundary counditions in all 3 dimensions
 bond_style 		fene
 special_bonds   fene    #set special bond parameters for FENE interactions
 
-pair_style      lj/cut/coul/long 1.1225 25.0   # use LJ with long-range Coulomb interactions, specifying cutoff distances
+pair_style      lj/cut/coul/long 2.5 25.0   # use LJ with long-range Coulomb interactions, specifying cutoff distances
 pair_modify     shift yes   #shift pair potential to 0 at the cutoff distance
 
 dielectric      1.0
-kspace_style    ewald   5.0e-4  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
+kspace_style    ewald   1.0e-4  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
 
 read_data input.data  #read the initial configuration and simulation parameters from input_data file
 
@@ -49,7 +49,7 @@ neigh_modify    every 1 delay 3 check yes #modify neighbor list settings to upda
 neigh_modify    one 4000
 
 thermo          1000 #output thermodynamic information every 1000 steps
-thermo_style    custom step temp epair ecoul ebond cpuremain  #customize thermo output to include step, temperature, and energy components
+thermo_style    custom step temp press pxx pyy pzz epair ecoul ebond cpuremain  #customize thermo output to include step, temperature, and energy components
 thermo_modify   flush yes norm no  #modify thermo settings to flush output and disable normalization
 
 #======
@@ -75,7 +75,8 @@ dump           10 dump custom 100000 short.lammpstrj id mol type q x y z
 dump_modify    10 flush yes sort 1
 
 fix            dynamics    all langevin TEMP TEMP 7.01 222333
-fix            center      polymer drag 0.0 NULL NULL 0.2 30.0
+fix            center1     polymer drag 0.0 NULL NULL 0.2 20.0
+fix            center2     ion drag 0.0 NULL NULL 0.5 30.0
 fix            ba          all balance 1000 1.05 shift x 10 1.05
 
 fix            2           all nve
@@ -83,9 +84,10 @@ fix            2           all nve
 restart         10000 restart1 restart2
 
 timestep        0.005
-run             100000
+run             200000
 
-unfix center
+unfix center1
+unfix center2
 #------
 # Step 3: Production run
 #------
