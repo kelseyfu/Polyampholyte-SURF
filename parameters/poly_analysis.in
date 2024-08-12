@@ -19,11 +19,11 @@ boundary p p p          #set periodic boundary counditions in all 3 dimensions
 bond_style 		fene
 special_bonds   fene    #set special bond parameters for FENE interactions
 
-pair_style      lj/cut/coul/long 1.1225 25.0   # use LJ with long-range Coulomb interactions, specifying cutoff distances
+pair_style      lj/cut/coul/long 2.5 25.0   # use LJ with long-range Coulomb interactions, specifying cutoff distances
 pair_modify     shift yes   #shift pair potential to 0 at the cutoff distance
 
 dielectric      1.0
-kspace_style    pppm   5.0e-4  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
+kspace_style    pppm   1.0e-4  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
 
 read_data input.data
 
