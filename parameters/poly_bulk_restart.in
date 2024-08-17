@@ -23,7 +23,7 @@ pair_style      lj/cut/coul/long 2.5 25.0   # use LJ with long-range Coulomb int
 pair_modify     shift yes   #shift pair potential to 0 at the cutoff distance
 
 dielectric      1.0
-kspace_style    pppm   5.0e-4  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
+kspace_style    ewald   5.0e-4 #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
 
 read_restart restart1  #read the initial configuration and simulation parameters from input_data file
 

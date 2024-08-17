@@ -25,7 +25,7 @@ pair_modify     shift yes   #shift pair potential to 0 at the cutoff distance
 dielectric      1.0
 kspace_style    pppm   1.0e-4  #use PPPM (particle particle particle mesh) method for long-range Coulomb interactions with specified precision
 
-read_restart restart1  #read the initial configuration and simulation parameters from input_data file
+read_restart restartN  #read the initial configuration and simulation parameters from input_data file
 
 # Atom types will be:
 # 1: Cation bead on polymer
@@ -62,6 +62,8 @@ fix            2           all nve
 fix            cv polymer colvars input.colvars input restart1.colvars.state output prod
 dump           100 dump custom 1000 drop.lammpstrj id mol type q x y z
 dump_modify    100 flush yes sort 1 append yes
+
+restart         100000 restart1 restart2
 
 variable Step equal "step"
 variable retime equal STEPS-${Step}

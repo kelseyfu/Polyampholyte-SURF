@@ -86,7 +86,7 @@ run            1000000
 #------
 fix           cv polymer colvars input.colvars output prod
 
-run           1000000000
+run           STEPS
 
 unfix cv
 unfix dynamics

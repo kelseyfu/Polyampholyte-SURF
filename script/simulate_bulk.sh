@@ -1,5 +1,5 @@
 # Make a new directory for the simulation
-export TAG="poly_sequ_${SEQUNAME}_nchain_${NCHAIN}_nsalt_${NSALT}_temp_${TEMP}_bulk"
+export TAG="poly_sequ_${SEQUNAME}_nchain_${NCHAIN}_znet_${ZNET}_nsalt_${NSALT}_temp_${TEMP}_bulk"
 mkdir -p "$CWD_PATH/data/$TAG"
 cd "$CWD_PATH/data/$TAG"
 
