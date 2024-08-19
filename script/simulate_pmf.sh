@@ -1,7 +1,7 @@
 # Make a new directory for the simulation
 export TAG="poly_sequ_${SEQUNAME}_nchain_${NCHAIN}_znet_${ZNET}_nsalt_${NSALT}_temp_${TEMP}_pmf"
-mkdir -p "$CWD_PATH/data/$TAG"
-cd "$CWD_PATH/data/$TAG"
+mkdir -p "$CWD_PATH/data/$TAG/$LBOUND"
+cd "${CWD_PATH}/data/${TAG}/${LBOUND}"
 
 
 if [ -f poly.out ]
@@ -11,7 +11,7 @@ then
         echo "SIMULATION COMPLETED SUCCESSFULLY"
     else
         echo "SIMULATION STARTED BUT DIDNT COMPLETE"
-        cp "$CWD_PATH/parameters/2chain_pmf_restart.in" "$CWD_PATH/data/$TAG/2chain_pmf_restart.in"
+        cp "$CWD_PATH/parameters/2chain_pmf_restart.in" "$CWD_PATH/data/$TAG/$LBOUND/2chain_pmf_restart.in"
 
         sed -i "s/TEMP/$TEMP/g" 2chain_pmf_restart.in
         sed -i "s/STEPS/$STEPS/g" 2chain_pmf_restart.in
@@ -40,11 +40,11 @@ then
     fi
 else
     # Copy the LAMMPS input file to the new directory
-    cp "$CWD_PATH/parameters/2chain_pmf.in" "$CWD_PATH/data/$TAG/2chain_pmf.in"
-    cp "$CWD_PATH/parameters/input.colvars" "$CWD_PATH/data/$TAG/input.colvars"
-    cp "$CWD_PATH/parameters/groups.ndx" "$CWD_PATH/data/$TAG/groups.ndx"
+    cp "$CWD_PATH/parameters/2chain_pmf.in" "$CWD_PATH/data/$TAG/$LBOUND/2chain_pmf.in"
+    cp "$CWD_PATH/parameters/input.colvars" "$CWD_PATH/data/$TAG/$LBOUND/input.colvars"
+    cp "$CWD_PATH/parameters/groups.ndx" "$CWD_PATH/data/$TAG/$LBOUND/groups.ndx"
 
-    cp "$CWD_PATH/parameters/poly_init.py" "$CWD_PATH/data/$TAG/poly_init.py"
+    cp "$CWD_PATH/parameters/poly_init.py" "$CWD_PATH/data/$TAG/$LBOUND/poly_init.py"
     # Initialise box
     sed -i "s/SEQUENCE/$sequence/g" poly_init.py
     sed -i "s/NCHAIN/$NCHAIN/g" poly_init.py
@@ -58,6 +58,9 @@ else
     # Modify the LAMMPS input file with the input parameters
     sed -i "s/TEMP/$TEMP/g" 2chain_pmf.in
     sed -i "s/STEPS/$STEPS/g" 2chain_pmf.in
+
+    sed -i "s/LBOUND/$LBOUND/g" input.colvars
+    sed -i "s/UBOUND/$UBOUND/g" input.colvars
 
     # Run the LAMMPS simulation
     if [ "${NGPU}" == "0" ]
