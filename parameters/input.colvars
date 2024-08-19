@@ -13,9 +13,9 @@ colvar {
     group1 { indexGroup chain_1 }
     group2 { indexGroup chain_2  }
   }
-  lowerBoundary 0
-  upperBoundary 25.0
-  width 0.25
+  lowerBoundary LBOUND
+  upperBoundary UBOUND
+  width 0.05
 }
 
 abf {
@@ -29,8 +29,8 @@ abf {
 harmonicWalls {
   name wall_dist
   colvars dist
-  lowerWalls 0
-  upperWalls 25.0
+  lowerWalls LBOUND
+  upperWalls UBOUND
   lowerWallConstant 10.0
   upperWallConstant 10.0
 }
