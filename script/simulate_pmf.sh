@@ -16,6 +16,19 @@ then
         sed -i "s/TEMP/$TEMP/g" 2chain_pmf_restart.in
         sed -i "s/STEPS/$STEPS/g" 2chain_pmf_restart.in
 
+        if test -f "restart2"
+        then
+            if [ "restart1" -nt "restart2" ]
+            then
+                sed -i "s/restartN/restart1/g" 2chain_pmf_restart.in
+            else
+                sed -i "s/restartN/restart2/g" 2chain_pmf_restart.in
+            fi
+        else
+            sed -i "s/restartN/restart1/g" 2chain_pmf_restart.in
+        fi
+
+
 
         if [ "${NGPU}" == "0" ]
         then
