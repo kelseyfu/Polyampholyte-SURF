@@ -44,7 +44,7 @@ else
     cp "$CWD_PATH/parameters/input.colvars" "$CWD_PATH/data/$TAG/$LBOUND/input.colvars"
     cp "$CWD_PATH/parameters/groups.ndx" "$CWD_PATH/data/$TAG/$LBOUND/groups.ndx"
 
-    cp "$CWD_PATH/parameters/poly_init.py" "$CWD_PATH/data/$TAG/$LBOUND/poly_init.py"
+    cp "$CWD_PATH/parameters/poly_init_pmf.py" "$CWD_PATH/data/$TAG/$LBOUND/poly_init.py"
     # Initialise box
     sed -i "s/SEQUENCE/$sequence/g" poly_init.py
     sed -i "s/NCHAIN/$NCHAIN/g" poly_init.py
@@ -52,6 +52,8 @@ else
     sed -i "s/LENGTHX/$LENGTHX/g" poly_init.py
     sed -i "s/LENGTHY/$LENGTHY/g" poly_init.py
     sed -i "s/LENGTHZ/$LENGTHZ/g" poly_init.py
+    sed -i "s/LBOUND/$LBOUND/g" poly_init.py
+    sed -i "s/UBOUND/$UBOUND/g" poly_init.py
 
     python3 poly_init.py
 

@@ -73,6 +73,7 @@ dump_modify    100 flush yes sort 1
 dump           10 dump custom 100000 short.lammpstrj id mol type q x y z
 dump_modify    10 flush yes sort 1
 
+fix            cv1 polymer colvars input.colvars output equil
 fix            dynamics    all langevin TEMP TEMP 7.01 222333
 fix            2           all nve
 
@@ -81,14 +82,16 @@ restart         100000 restart1 restart2
 timestep        0.005
 run            1000000
 
+unfix          cv1
+
 #------
 # Step 3: Production run
 #------
-fix           cv polymer colvars input.colvars output prod
+fix           cv2 polymer colvars input.colvars output prod
 
 run           STEPS
 
-unfix cv
+unfix cv2
 unfix dynamics
 unfix 2
 
