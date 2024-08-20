@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=pmf0.0
+#SBATCH --job-name=pmf+16
 #SBATCH --time=2-00:00:00
 # Slurm: Node configuration
 #SBATCH --partition=subset

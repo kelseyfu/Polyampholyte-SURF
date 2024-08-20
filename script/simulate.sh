@@ -1,5 +1,5 @@
 # Make a new directory for the simulation
-export TAG="poly_sequ_${SEQUNAME}_nchain_${NCHAIN}_nsalt_${NSALT}_temp_${TEMP}"
+export TAG="poly_sequ_${SEQUNAME}_nchain_${NCHAIN}_znet_${ZNET}_nsalt_${NSALT}_temp_${TEMP}"
 mkdir -p "$CWD_PATH/data/$TAG"
 cd "$CWD_PATH/data/$TAG"
 
@@ -31,7 +31,9 @@ else
     # Initialise box
     sed -i "s/SEQUENCE/$sequence/g" poly_init.py
     sed -i "s/NCHAIN/$NCHAIN/g" poly_init.py
-    sed -i "s/LENGTH/$LENGTH/g" poly_init.py
+    sed -i "s/LENGTHX/$LENGTHX/g" poly_init.py
+    sed -i "s/LENGTHY/$LENGTHY/g" poly_init.py
+    sed -i "s/LENGTHZ/$LENGTHZ/g" poly_init.py
     sed -i "s/NSALT/$NSALT/g" poly_init.py
 
     python3 poly_init.py

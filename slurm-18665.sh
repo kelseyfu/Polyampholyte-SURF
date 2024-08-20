@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=pmf0.0
+#SBATCH --job-name=pmfN_
 #SBATCH --time=2-00:00:00
 # Slurm: Node configuration
 #SBATCH --partition=subset
@@ -22,7 +22,7 @@
 CWD_PATH=$(pwd)
 LAMMPS_PATH="lmp"
 
-source "inputs/double_chain_0.0_0_0.sh"
+source "inputs/double_chain_0.4_0_0.sh"
 
 # source "script/simulate_bulk.sh" # 1 & 100 chain
 # source "script/simulate.sh"

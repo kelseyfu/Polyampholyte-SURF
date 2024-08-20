@@ -9,7 +9,7 @@
 #SBATCH --nodes=1 --ntasks-per-node=2 --mem=4G
 #SBATCH --gres=gpu:0 --gpu-bind=closest
 
-#SBATCH --output=/home/pwalker/slurm-reports/slurm-%j.out --error=/home/pwalker/slurm-reports/slurm_error-%j.out
+#SBATCH --output=/home/kfu/slurm-reports/slurm-%j.out --error=/home/kfu/slurm-reports/slurm_error-%j.out
 
 # -*- coding: utf-8 -*-
 #
