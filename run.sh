@@ -22,7 +22,7 @@
 CWD_PATH=$(pwd)
 LAMMPS_PATH="lmp"
 
-source "inputs/double_chain_0.0_0_0.sh"
+source "inputs/double_chain_0.2_+4_0.sh"
 
 # source "script/simulate_bulk.sh" # 1 & 100 chain
 # source "script/simulate.sh"
