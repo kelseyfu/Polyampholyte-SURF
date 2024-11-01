@@ -45,7 +45,7 @@ group          dump   type 1 2 3 4 5
 # Simulation Parameters
 #======
 neighbor        0.3 bin
-neigh_modify    every 1 delay 3 check yes #modify neighbor list settings to update every 1 step, delay 3 steps, and check for updates
+neigh_modify    every 1 delay 3 check yes one 4000 #modify neighbor list settings to update every 1 step, delay 3 steps, and check for updates
 
 thermo          1000 #output thermodynamic information every 1000 steps
 thermo_style    custom step temp epair ecoul ebond cpuremain  #customize thermo output to include step, temperature, and energy components
