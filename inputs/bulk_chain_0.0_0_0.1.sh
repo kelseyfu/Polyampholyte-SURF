@@ -3,13 +3,13 @@ export sequence="[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
 export ZNET="0"
 
 export TEMP="1"
-export NCHAIN="200"
+export NCHAIN="400"
 export NSALT="1000"
-export LENGTHX="500"
-export LENGTHY="28.284"
-export LENGTHZ="28.284"
+export LENGTHX="300"
+export LENGTHY="30"
+export LENGTHZ="30"
 
 export STEPS="10000000"
 
-export NCPU="2"
-export NGPU="1"
+export NCPU="12"
+export NGPU="0"
