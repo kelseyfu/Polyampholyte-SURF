@@ -19,7 +19,7 @@ boundary p p p          #set periodic boundary counditions in all 3 dimensions
 bond_style 		fene
 special_bonds   fene    #set special bond parameters for FENE interactions
 
-pair_style      lj/cut/coul/long 2.5 25.0   # use LJ with long-range Coulomb interactions, specifying cutoff distances
+pair_style      lj/cut/coul/long 1.12246 10.0   # use LJ with long-range Coulomb interactions, specifying cutoff distances
 pair_modify     shift yes   #shift pair potential to 0 at the cutoff distance
 
 dielectric      1.0
@@ -94,7 +94,3 @@ run           STEPS
 unfix cv2
 unfix dynamics
 unfix 2
-
-
-
-

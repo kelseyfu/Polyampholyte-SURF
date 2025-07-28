@@ -3,6 +3,8 @@ export TAG="poly_sequ_${SEQUNAME}_nchain_${NCHAIN}_znet_${ZNET}_nsalt_${NSALT}_t
 mkdir -p "$CWD_PATH/data/$TAG/$LBOUND"
 cd "${CWD_PATH}/data/${TAG}/${LBOUND}"
 
+export OMP_NUM_THREADS=$NCPU
+
 
 if [ -f poly.out ]
 then 
@@ -32,9 +34,9 @@ then
 
         if [ "${NGPU}" == "0" ]
         then
-            mpirun -np $NCPU $LAMMPS_PATH -in 2chain_pmf_restart.in >> poly.out
+            $LAMMPS_PATH -in 2chain_pmf_restart.in >> poly.out
         else
-            mpirun -np $NCPU $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in 2chain_pmf_restart.in >> poly.out
+            $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in 2chain_pmf_restart.in >> poly.out
         fi
 
     fi
@@ -67,9 +69,9 @@ else
     # Run the LAMMPS simulation
     if [ "${NGPU}" == "0" ]
     then
-        mpirun -np $NCPU $LAMMPS_PATH -in 2chain_pmf.in > poly.out
+        $LAMMPS_PATH -in 2chain_pmf.in > poly.out
     else
-        mpirun -np $NCPU $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in 2chain_pmf.in > poly.out
+        $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in 2chain_pmf.in > poly.out
     fi
 
     echo "SIMULATION COMPLETED SUCCESSFULLY"
