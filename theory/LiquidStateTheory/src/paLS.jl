@@ -1,40 +1,35 @@
-using Clapeyron
-import Clapeyron: @registermodel, AssocOptions, has_sites, getparams
-import Clapeyron: N_A, k_B
-import Clapeyron: sigma_LorentzBerthelot, epsilon_LorentzBerthelot, assoc_mix
-
-struct LSParam <: EoSParam
+struct paLSParam <: EoSParam
     N::SingleParam
     N2::SingleParam
     N3::SingleParam
     Z::SingleParam
 end
 
-abstract type LSModel <: EoSModel end
+abstract type paLSModel <: EoSModel end
 
-struct LS <: LSModel
+struct paLS <: paLSModel
     components::Vector{String}
-    params::LSParam
+    params::paLSParam
 end
 
-LS
-export LS
+paLS
+export paLS
 
-function LS(components;
+function paLS(components;
     userlocations=String[])
     params = getparams(components, [""]; userlocations=userlocations)
     N = params["N"]
     N2 = params["N2"]
     N3 = params["N3"]
     Z = params["Z"]
-    packagedparams = LSParam(N,N2,N3,Z)
-    model = LS(components, packagedparams)
+    packagedparams = paLSParam(N,N2,N3,Z)
+    model = paLS(components, packagedparams)
     return model
 end
 
-@registermodel LS
+@registermodel paLS
 
-function a(model::LSModel,lB,ρ)
+function a(model::paLSModel,lB,ρ)
     N           = model.params.N.values
     N2          = model.params.N2.values
     N3          = model.params.N3.values
@@ -67,8 +62,8 @@ function a(model::LSModel,lB,ρ)
         apm += p1[i+1] * ξpm^i
         bpm += p2[i+1] * ξpm^i
     end
-    y3pp        = (1+η*app+η^2*bpp)/(1-η)^3*exp(lB/(2*ξpp)*exp(-Γ*2*ξpp))
-    y3pm        = (1+η*apm+η^2*bpm)/(1-η)^3*exp(-lB/(2*ξpm)*exp(-Γ*2*ξpm))
+    y3pp        = (1+η*app+η^2*bpp)/(1-η)^3#*exp(lB/(2*ξpp)*exp(-Γ*2*ξpp))
+    y3pm        = (1+η*apm+η^2*bpm)/(1-η)^3#*exp(-lB/(2*ξpm)*exp(-Γ*2*ξpm))
     fch3        = -sum(ρ.*(N .-2)/N.*((1 .-β).*log.(y3pp) .+ β.*log.(y3pm)))
     return (f0+fhs+fel+fch2+fch3)
 end
