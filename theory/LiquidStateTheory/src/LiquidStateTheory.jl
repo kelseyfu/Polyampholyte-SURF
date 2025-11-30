@@ -8,6 +8,8 @@ module LiquidStateTheory
     import Clapeyron: sigma_LorentzBerthelot, epsilon_LorentzBerthelot, assoc_mix
     import Clapeyron: Solvers
 
+    import SpecialFunctions: erf, erfc   
+
     include("LS.jl")
     include("paLS.jl")
     include("sequences.jl")
