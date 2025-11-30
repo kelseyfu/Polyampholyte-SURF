@@ -9,7 +9,7 @@ export LENGTHX="50"
 export LENGTHY="50"
 export LENGTHZ="50"
 
-export STEPS="3000000"
+export STEPS="30000000"
 
-export NCPU="2"
+export NCPU="4"
 export NGPU="0"

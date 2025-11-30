@@ -11,7 +11,7 @@ LAMMPS_VERSION="2Aug2023"
 
 # Specify CUDA architecture
 GPU="on"
-CUDA_ARCH="sm_86" # For CUDA 11.1 and higher, sm_80 for lower versions
+CUDA_ARCH="sm_60" # For CUDA 11.1 and higher, sm_80 for lower versions
 
 # Download LAMMPS
 if test -d lammps; then # Check if LAMMPS is already downloaded

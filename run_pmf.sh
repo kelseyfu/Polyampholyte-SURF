@@ -4,7 +4,7 @@
 # Slurm: Node configuration
 #SBATCH --partition=cpu
 
-#SBATCH --nodes=1 --ntasks-per-node=2 --mem=4G
+#SBATCH --nodes=1 --ntasks-per-node=4 --mem=4G
 #SBATCH --gres=gpu:0 --gpu-bind=closest
 
 # -*- coding: utf-8 -*-

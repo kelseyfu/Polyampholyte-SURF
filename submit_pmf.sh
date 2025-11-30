@@ -1,4 +1,4 @@
-source "inputs/double_chain_0.0_+4_1.0.sh"
+source "inputs/double_chain_0.1_+8_1.0_blocky.sh"
 
 # Iterate over lower bounds 0 to 25 in increments of 5
 for LBOUND in $(seq 0 5 20)

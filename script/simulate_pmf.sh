@@ -34,9 +34,9 @@ then
 
         if [ "${NGPU}" == "0" ]
         then
-            $LAMMPS_PATH -in 2chain_pmf_restart.in >> poly.out
+            mpiexec -np $NCPU $LAMMPS_PATH -in 2chain_pmf_restart.in >> poly.out
         else
-            $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in 2chain_pmf_restart.in >> poly.out
+            mpiexec -np $NCPU $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in 2chain_pmf_restart.in >> poly.out
         fi
 
     fi
@@ -69,9 +69,9 @@ else
     # Run the LAMMPS simulation
     if [ "${NGPU}" == "0" ]
     then
-        $LAMMPS_PATH -in 2chain_pmf.in > poly.out
+        mpiexec -np $NCPU $LAMMPS_PATH -in 2chain_pmf.in > poly.out
     else
-        $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in 2chain_pmf.in > poly.out
+        mpiexec -np $NCPU $LAMMPS_PATH -sf gpu -pk gpu $NGPU -in 2chain_pmf.in > poly.out
     fi
 
     echo "SIMULATION COMPLETED SUCCESSFULLY"

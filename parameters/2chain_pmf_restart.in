@@ -19,7 +19,7 @@ boundary p p p          #set periodic boundary counditions in all 3 dimensions
 bond_style 		fene
 special_bonds   fene    #set special bond parameters for FENE interactions
 
-pair_style      lj/cut/coul/long 2.5 25.0   # use LJ with long-range Coulomb interactions, specifying cutoff distances
+pair_style      lj/cut/coul/long 1.12246 10.0   # use LJ with long-range Coulomb interactions, specifying cutoff distances
 pair_modify     shift yes   #shift pair potential to 0 at the cutoff distance
 
 dielectric      1.0
@@ -63,7 +63,7 @@ fix            cv polymer colvars input.colvars input restart1.colvars.state out
 dump           100 dump custom 1000 drop.lammpstrj id mol type q x y z
 dump_modify    100 flush yes sort 1 append yes
 
-restart         100000 restart1 restart2
+restart         1000 restart1 restart2
 
 variable Step equal "step"
 variable retime equal STEPS-${Step}

@@ -4,7 +4,7 @@ export ZNET="12"
 
 export TEMP="1"
 export NCHAIN="2"
-export NSALT="0"
+export NSALT="2000"
 export LENGTHX="50"
 export LENGTHY="50"
 export LENGTHZ="50"
